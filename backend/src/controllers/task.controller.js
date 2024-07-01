@@ -2,10 +2,13 @@ import Task from "../models/task.model.js";
 import User from "../models/user.model.js";
 
 // Crear una nueva tarea
-exports.createTask = async (req, res) => {
-  const { title, description, assignedTo, timeSpent } = req.body;
-
+export async function createTask (req, res) {
+  
   try {
+
+    const { title, description, assignedTo, timeSpent } = req.body;
+
+
     const task = new Task({ title, description, assignedTo, timeSpent });
     await task.save();
     res.status(201).json(task);
@@ -15,7 +18,7 @@ exports.createTask = async (req, res) => {
 };
 
 // Obtener todas las tareas
-exports.getTasks = async (req, res) => {
+export async function getTasks (req, res) {
   try {
     const tasks = await Task.find().populate('assignedTo', 'name email');
     res.json(tasks);
@@ -25,10 +28,13 @@ exports.getTasks = async (req, res) => {
 };
 
 // Actualizar el estado de una tarea
-exports.updateTaskStatus = async (req, res) => {
-  const { taskId, status, timeSpent } = req.body;
+export async function updateTaskStatus (req, res) {
+  
 
   try {
+
+    const { taskId, status, timeSpent } = req.body;
+
     const task = await Task.findById(taskId);
     if (!task) {
       return res.status(404).json({ error: 'Task not found' });
